@@ -9,11 +9,48 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  bloc: ^9.0.0
+  flutter_bloc: ^9.1.1
+  get_it: ^8.0.3
+  go_router: ^15.2.3
+  sizer: ^3.0.5
+  equatable: ^2.0.7
+  http: ^1.4.0
+  shared_preferences: ^2.5.3
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Roboto-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Roboto-Black.ttf
+          weight: 900
