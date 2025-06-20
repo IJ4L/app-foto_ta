@@ -6,6 +6,7 @@ import 'package:foto_ta/core/string/assets_string.dart';
 import 'package:foto_ta/core/string/text_string.dart';
 import 'package:foto_ta/core/theme/app_colors.dart';
 import 'package:foto_ta/core/theme/app_fonts.dart';
+import 'package:foto_ta/presentation/cubits/auth/auth_cubit.dart';
 import 'package:foto_ta/presentation/cubits/cubit.dart';
 import 'package:foto_ta/presentation/widgets/button_widget.dart';
 import 'package:foto_ta/presentation/widgets/form_widget.dart';
@@ -142,7 +143,7 @@ class _AuthPageState extends State<AuthPage> {
               CustomeButton(
                 text: TextString.signIn,
                 onPressed: () {
-                  // if (formKey.currentState!.validate()) {}
+                  if (formKey.currentState!.validate()) {}
                 },
               ),
               2.hBox,
@@ -163,33 +164,22 @@ class _AuthPageState extends State<AuthPage> {
                 ],
               ),
               2.hBox,
-              IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 2.w,
-                    vertical: 1.5.h,
-                  ),
-                  backgroundColor: AppColors.background,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  side: const BorderSide(color: AppColors.greySmooth, width: 1),
-                ),
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AssetsString.googleIc, height: 2.5.h),
-                    2.wBox,
-                    Text(
-                      TextString.loginWithGoogle,
-                      style: AppFonts.button.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  return CustomeIconButton(
+                    iconPath: AssetsString.googleIc,
+                    text: TextString.loginWithGoogle,
+                    onPressed: () {
+                      if (state is! AuthLoading) {
+                        context.read<AuthCubit>().signInWithGoogle("", "");
+                        emailController.clear();
+                        passwordController.clear();
+                        formKey.currentState!.reset();
+                      }
+                    },
+                    isLoading: state is AuthLoading,
+                  );
+                },
               ),
               Spacer(),
               Align(

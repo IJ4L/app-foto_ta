@@ -1,5 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foto_ta/config/injector/injection_conf.dart';
 import 'package:foto_ta/config/router/app_route_path.dart';
 import 'package:foto_ta/core/transition/slide_transition.dart';
+import 'package:foto_ta/presentation/cubits/auth/auth_cubit.dart';
 import 'package:foto_ta/presentation/screens/auth_page.dart';
 import 'package:foto_ta/presentation/screens/splash_page.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +23,10 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           transitionDuration: const Duration(milliseconds: 1800),
           key: state.pageKey,
-          child: AuthPage(),
+          child: BlocProvider(
+            create: (context) => sl<AuthCubit>(),
+            child: AuthPage(),
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return slideTransition(animation, child);
           },

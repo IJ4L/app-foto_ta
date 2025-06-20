@@ -14,14 +14,17 @@ class AuthCubit extends Cubit<AuthState> {
   @override
   void onChange(Change<AuthState> change) {
     super.onChange(change);
-    debugPrint('AuthCubit state changed: ${change.currentState} -> ${change.nextState}');
+    debugPrint(
+      'AuthCubit state changed: ${change.currentState} -> ${change.nextState}',
+    );
   }
 
   Future<void> signInWithGoogle(String username, String password) async {
     try {
       emit(AuthLoading());
-      Future.delayed(const Duration(seconds: 2));
-      emit(AuthSuccess());
+      Future.delayed(
+        const Duration(seconds: 2),
+      ).then((_) => emit(AuthSuccess()));
     } catch (_) {
       emit(AuthFailure());
     }

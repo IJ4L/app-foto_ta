@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foto_ta/core/extension/spacing_extension.dart';
+import 'package:foto_ta/core/theme/app_colors.dart';
 import 'package:foto_ta/core/theme/app_fonts.dart';
 
 Widget formWidget({
@@ -25,7 +26,7 @@ Widget formWidget({
           keyboardType: keyboardType,
           obscureText: obscureText,
           focusNode: focusNode,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.disabled,
           onFieldSubmitted: (value) {
             if (nextFocusNode != null) {
               FocusScope.of(focusNode!.context!).requestFocus(nextFocusNode);
@@ -47,7 +48,7 @@ Widget formWidget({
                       ),
                     ),
                     icon: Icon(
-                      color: Colors.black87,
+                      color: AppColors.primary,
                       obscureText
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
