@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
 
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        context.pushReplacement(AppRoute.auth.path);
+        context.go(AppRoute.splash.path + AppRoute.signIn.path);
       }
     });
   }

@@ -9,3 +9,17 @@ SlideTransition slideTransition(Animation<double> animation, Widget child) {
     child: child,
   );
 }
+
+SlideTransition slideFromRightTransition(
+  Animation<double> animation,
+  Widget child,
+) {
+  return SlideTransition(
+    position: Tween<Offset>(
+      begin: const Offset(2.5, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+    child: child,
+  );
+}
+  

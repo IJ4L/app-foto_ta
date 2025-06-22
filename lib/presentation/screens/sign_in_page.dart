@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:foto_ta/config/router/app_route_path.dart';
 import 'package:foto_ta/core/extension/spacing_extension.dart';
 import 'package:foto_ta/core/string/assets_string.dart';
 import 'package:foto_ta/core/string/text_string.dart';
@@ -10,16 +11,17 @@ import 'package:foto_ta/presentation/cubits/auth/auth_cubit.dart';
 import 'package:foto_ta/presentation/cubits/cubit.dart';
 import 'package:foto_ta/presentation/widgets/button_widget.dart';
 import 'package:foto_ta/presentation/widgets/form_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _SignInPageState extends State<SignInPage> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   FocusNode emailFocusNode = FocusNode();
@@ -39,6 +41,9 @@ class _AuthPageState extends State<AuthPage> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
     super.dispose();
   }
 
@@ -143,7 +148,8 @@ class _AuthPageState extends State<AuthPage> {
               CustomeButton(
                 text: TextString.signIn,
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {}
+                  context.go(AppRoute.beranda.path);
+                  // if (formKey.currentState!.validate()) {}
                 },
               ),
               2.hBox,
@@ -164,20 +170,31 @@ class _AuthPageState extends State<AuthPage> {
                 ],
               ),
               2.hBox,
-              BlocBuilder<AuthCubit, AuthState>(
+              BlocConsumer<SignInCubit, SignInState>(
+                listener: (context, state) {
+                  if (state is SignInSuccess) {
+                    context.push(
+                      AppRoute.splash.path + AppRoute.takeSelfies.path,
+                    );
+                  } else if (state is SignInFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Akun tidak dapat masuk")),
+                    );
+                  }
+                },
                 builder: (context, state) {
                   return CustomeIconButton(
                     iconPath: AssetsString.googleIc,
                     text: TextString.loginWithGoogle,
                     onPressed: () {
-                      if (state is! AuthLoading) {
-                        context.read<AuthCubit>().signInWithGoogle("", "");
+                      if (state is! SignInLoading) {
+                        context.read<SignInCubit>().signInWithGoogle("", "");
                         emailController.clear();
                         passwordController.clear();
                         formKey.currentState!.reset();
                       }
                     },
-                    isLoading: state is AuthLoading,
+                    isLoading: state is SignInLoading,
                   );
                 },
               ),
@@ -194,7 +211,9 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        context.go(AppRoute.splash.path + AppRoute.signUp.path);
+                      },
                       child: Text(
                         TextString.signUp,
                         style: AppFonts.body.copyWith(
